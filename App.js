@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   View,
@@ -25,19 +24,23 @@ export default function App() {
     setShowPlan(true);
   };
 
+  const dailyBudget =
+    budget && days ? Math.round(Number(budget) / Number(days)) : 0;
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        
-        <Text style={styles.logo}>🇨🇾 Easy Cyprus</Text>
+        <Text style={styles.logo}>Easy Cyprus 🇨🇾</Text>
+
+        <Text style={styles.title}>خطط رحلتك إلى قبرص بسهولة</Text>
+
         <Text style={styles.subtitle}>
-          خطط لرحلتك في قبرص بسهولة
+          أدخل ميزانيتك وعدد الأيام، وسنساعدك في إنشاء خطة مناسبة لرحلتك.
         </Text>
 
         <View style={styles.card}>
-          <Text style={styles.title}>✈️ خطط رحلتك</Text>
+          <Text style={styles.label}>💰 ميزانية الرحلة</Text>
 
-          <Text style={styles.label}>💰 ميزانية الرحلة (€)</Text>
           <TextInput
             style={styles.input}
             placeholder="مثال: 500"
@@ -47,6 +50,7 @@ export default function App() {
           />
 
           <Text style={styles.label}>📅 عدد الأيام</Text>
+
           <TextInput
             style={styles.input}
             placeholder="مثال: 5"
@@ -58,19 +62,19 @@ export default function App() {
           <Text style={styles.label}>📍 المدينة</Text>
 
           <View style={styles.cities}>
-            {["ليماسول", "لارنكا", "نيقوسيا", "بافوس"].map((item) => (
+            {["ليماسول", "لارنكا", "بافوس", "نيقوسيا"].map((item) => (
               <TouchableOpacity
                 key={item}
                 style={[
                   styles.cityButton,
-                  city === item && styles.selectedCity,
+                  city === item && styles.citySelected,
                 ]}
                 onPress={() => setCity(item)}
               >
                 <Text
                   style={[
                     styles.cityText,
-                    city === item && styles.selectedCityText,
+                    city === item && styles.cityTextSelected,
                   ]}
                 >
                   {item}
@@ -79,101 +83,96 @@ export default function App() {
             ))}
           </View>
 
-          <TouchableOpacity
-            style={styles.mainButton}
-            onPress={createPlan}
-          >
-            <Text style={styles.mainButtonText}>
-              ✨ أنشئ خطتي السياحية
-            </Text>
+          <TouchableOpacity style={styles.mainButton} onPress={createPlan}>
+            <Text style={styles.mainButtonText}>✨ أنشئ خطتي</Text>
           </TouchableOpacity>
         </View>
 
         {showPlan && (
           <View style={styles.planCard}>
-            <Text style={styles.planTitle}>
-              🗺️ خطتك في {city}
+            <Text style={styles.planTitle}>🎉 خطتك المقترحة</Text>
+
+            <Text style={styles.info}>
+              📍 المدينة: {city}
             </Text>
 
             <Text style={styles.info}>
-              💶 الميزانية: {budget} €
+              📅 مدة الرحلة: {days} أيام
             </Text>
 
             <Text style={styles.info}>
-              📅 المدة: {days} أيام
+              💰 الميزانية اليومية التقريبية: {dailyBudget}
             </Text>
 
-            <View style={styles.day}>
-              <Text style={styles.dayTitle}>☀️ اليوم الأول</Text>
+            <View style={styles.dayCard}>
+              <Text style={styles.dayTitle}>اليوم 1 🌊</Text>
               <Text style={styles.dayText}>
-                🏖️ جولة في المدينة والشاطئ
+                • الوصول واستكشاف المدينة
               </Text>
               <Text style={styles.dayText}>
-                🍽️ غداء اقتصادي
+                • جولة في المنطقة القديمة
               </Text>
               <Text style={styles.dayText}>
-                🌅 مشاهدة غروب الشمس
-              </Text>
-            </View>
-
-            <View style={styles.day}>
-              <Text style={styles.dayTitle}>🌴 اليوم الثاني</Text>
-              <Text style={styles.dayText}>
-                🏛️ زيارة أهم المعالم السياحية
-              </Text>
-              <Text style={styles.dayText}>
-                ☕ مقهى محلي
-              </Text>
-              <Text style={styles.dayText}>
-                🍴 عشاء حلال أو عربي
+                • عشاء اقتصادي
               </Text>
             </View>
 
-            <View style={styles.day}>
-              <Text style={styles.dayTitle}>🚗 اليوم الثالث</Text>
+            <View style={styles.dayCard}>
+              <Text style={styles.dayTitle}>اليوم 2 🏖️</Text>
               <Text style={styles.dayText}>
-                🌊 رحلة واستكشاف أماكن طبيعية
+                • زيارة أحد الشواطئ الجميلة
               </Text>
               <Text style={styles.dayText}>
-                📸 أماكن للتصوير
+                • وقت للراحة والتصوير
+              </Text>
+              <Text style={styles.dayText}>
+                • تجربة مطعم محلي
               </Text>
             </View>
 
-            <Text style={styles.note}>
-              💡 سيتم تطوير الخطة لاحقًا لتشمل السكن
-              والمطاعم والمواصلات والأنشطة والأسعار.
-            </Text>
+            <View style={styles.dayCard}>
+              <Text style={styles.dayTitle}>اليوم 3 🍽️</Text>
+              <Text style={styles.dayText}>
+                • جولة سياحية جديدة
+              </Text>
+              <Text style={styles.dayText}>
+                • تجربة الأكل القبرصي
+              </Text>
+              <Text style={styles.dayText}>
+                • حلويات ومقهى
+              </Text>
+            </View>
+
+            <View style={styles.specialCard}>
+              <Text style={styles.specialTitle}>
+                🕌 خيارات عربية وحلال
+              </Text>
+
+              <Text style={styles.specialText}>
+                سنضيف لاحقًا قائمة المطاعم العربية والحلال والحلويات العربية
+                مع الأسعار والمواقع.
+              </Text>
+            </View>
+
+            <View style={styles.specialCard}>
+              <Text style={styles.specialTitle}>
+                💡 نصيحة Easy Cyprus
+              </Text>
+
+              <Text style={styles.specialText}>
+                قارن الأسعار قبل الحجز، واختر الأنشطة المناسبة لميزانيتك.
+              </Text>
+            </View>
           </View>
         )}
 
-        <View style={styles.features}>
-          <Text style={styles.featureTitle}>⭐ مميزات Easy Cyprus</Text>
+        <Text style={styles.footer}>
+          Easy Cyprus 🇨🇾
+        </Text>
 
-          <Text style={styles.feature}>
-            🏨 مقارنة خيارات السكن
-          </Text>
-
-          <Text style={styles.feature}>
-            🍽️ مطاعم عربية وحلال
-          </Text>
-
-          <Text style={styles.feature}>
-            🍰 حلويات عربية
-          </Text>
-
-          <Text style={styles.feature}>
-            🚌 خيارات المواصلات
-          </Text>
-
-          <Text style={styles.feature}>
-            🎯 أنشطة تناسب ميزانيتك
-          </Text>
-
-          <Text style={styles.feature}>
-            💰 خيارات اقتصادية للسائح
-          </Text>
-        </View>
-
+        <Text style={styles.footerText}>
+          رحلتك إلى قبرص... أسهل وأذكى
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -182,7 +181,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f7fa",
+    backgroundColor: "#F5F8FC",
   },
 
   content: {
@@ -191,122 +190,126 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#1769aa",
+    color: "#1677C8",
     marginTop: 20,
   },
 
-  subtitle: {
-    fontSize: 17,
+  title: {
+    fontSize: 23,
+    fontWeight: "bold",
     textAlign: "center",
-    color: "#555",
-    marginTop: 8,
-    marginBottom: 25,
+    color: "#172B4D",
+    marginTop: 15,
+  },
+
+  subtitle: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "#667085",
+    lineHeight: 24,
+    marginTop: 10,
+    marginBottom: 20,
   },
 
   card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 18,
     padding: 20,
     elevation: 4,
-  },
-
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#222",
   },
 
   label: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#172B4D",
     marginBottom: 8,
-    marginTop: 12,
-    textAlign: "right",
+    marginTop: 8,
   },
 
   input: {
-    height: 50,
+    height: 52,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#D0D5DD",
     borderRadius: 12,
     paddingHorizontal: 15,
     fontSize: 16,
+    backgroundColor: "#FAFAFA",
     textAlign: "right",
-    backgroundColor: "#fafafa",
   },
 
   cities: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginTop: 5,
+    gap: 8,
+    marginBottom: 15,
   },
 
   cityButton: {
     borderWidth: 1,
-    borderColor: "#1769aa",
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginBottom: 8,
+    borderColor: "#B8C4D6",
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    marginBottom: 5,
   },
 
-  selectedCity: {
-    backgroundColor: "#1769aa",
+  citySelected: {
+    backgroundColor: "#1677C8",
+    borderColor: "#1677C8",
   },
 
   cityText: {
-    color: "#1769aa",
-    fontWeight: "bold",
+    color: "#344054",
+    fontSize: 14,
   },
 
-  selectedCityText: {
-    color: "#fff",
+  cityTextSelected: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
 
   mainButton: {
-    backgroundColor: "#1769aa",
+    backgroundColor: "#1677C8",
     borderRadius: 14,
     paddingVertical: 16,
-    marginTop: 20,
+    marginTop: 10,
   },
 
   mainButtonText: {
-    color: "#fff",
-    textAlign: "center",
+    color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
   },
 
   planCard: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 18,
     padding: 20,
     marginTop: 20,
-    elevation: 3,
+    elevation: 4,
   },
 
   planTitle: {
-    fontSize: 23,
+    fontSize: 24,
     fontWeight: "bold",
+    color: "#172B4D",
     textAlign: "center",
-    color: "#1769aa",
-    marginBottom: 15,
+    marginBottom: 18,
   },
 
   info: {
     fontSize: 16,
+    color: "#344054",
+    marginBottom: 10,
     textAlign: "right",
-    marginBottom: 8,
   },
 
-  day: {
-    backgroundColor: "#f1f7fc",
+  dayCard: {
+    backgroundColor: "#F2F7FC",
     borderRadius: 14,
     padding: 15,
     marginTop: 12,
@@ -315,42 +318,52 @@ const styles = StyleSheet.create({
   dayTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    textAlign: "right",
+    color: "#1677C8",
     marginBottom: 8,
+    textAlign: "right",
   },
 
   dayText: {
     fontSize: 15,
+    color: "#475467",
+    lineHeight: 25,
     textAlign: "right",
-    marginTop: 5,
-    color: "#444",
   },
 
-  note: {
-    fontSize: 14,
-    textAlign: "right",
-    color: "#666",
-    marginTop: 18,
-    lineHeight: 22,
+  specialCard: {
+    backgroundColor: "#FFF8E7",
+    borderRadius: 14,
+    padding: 15,
+    marginTop: 12,
   },
 
-  features: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 20,
-    marginTop: 20,
-  },
-
-  featureTitle: {
-    fontSize: 21,
+  specialTitle: {
+    fontSize: 17,
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 15,
+    color: "#8A5A00",
+    textAlign: "right",
+    marginBottom: 6,
   },
 
-  feature: {
-    fontSize: 16,
+  specialText: {
+    fontSize: 14,
+    color: "#6B5B35",
+    lineHeight: 23,
     textAlign: "right",
-    marginVertical: 7,
+  },
+
+  footer: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1677C8",
+    textAlign: "center",
+    marginTop: 30,
+  },
+
+  footerText: {
+    fontSize: 14,
+    color: "#667085",
+    textAlign: "center",
+    marginTop: 5,
   },
 });
